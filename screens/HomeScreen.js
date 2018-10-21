@@ -1,11 +1,9 @@
 import React from 'react';
 import {
   Image,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
-  Button,
   TouchableOpacity,
   View,
   Slider
@@ -38,7 +36,7 @@ export default class HomeScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.scrollViewContainer}>
           <View style={styles.notification}>
             <Image
               style={{width: 50, height: 50}}
@@ -56,9 +54,9 @@ export default class HomeScreen extends React.Component {
               minimumValue={3}
               onValueChange={this.change.bind(this)}
               value={parseInt(baseAllowance)}
-              minimumTrackTintColor="#1a1f71"
-              maximumTrackTintColor="#1a1f71"
-              thumbTintColor="#1a1f71"
+              minimumTrackTintColor="#003ea9"
+              maximumTrackTintColor="#003ea9"
+              thumbTintColor="#003ea9"
             />          
           </View>
 
@@ -87,32 +85,9 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
   _onPressLearnMore = (amt) => {
     console.log("Here!", this.state.baseAllowance);
-    fetch('https://582c3fce.ngrok.io', {
+    fetch('http://10.42.0.114:5000', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -133,6 +108,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 20
   },
+  scrollViewContainer:{
+    flex: 1,
+    backgroundColor: '#fff',
+  },
   sendButton: {
     padding: 20,
     width: '90%',
@@ -140,7 +119,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFD700',
   },
   sliderContainer: {
-    marginBottom: 20
+    alignItems: 'center',
+    marginBottom: 20,
   },
   getStartedText: {
     color: '#003ea9',
@@ -159,7 +139,7 @@ const styles = StyleSheet.create({
   },
   header: {
     color: '#000',
-    fontWeight: 'bold',
+    fontFamily: 'sf-pro-bold',
     fontSize: 34,
     lineHeight: 35,
     textAlign: 'left',
@@ -179,17 +159,15 @@ const styles = StyleSheet.create({
   },
   notification: {
     alignItems: 'flex-end',
-    marginRight: 10
-  },
-  allowanceSection: {
-    padding: 10
+    marginRight: 5,
+    paddingTop: 12
   },
   label: {
     fontSize: 45,
-    fontWeight: 'bold',
     textAlign: 'center',
-    lineHeight: 45,
-    color: '#003ea9'
+    lineHeight: 50,
+    color: '#003ea9',
+    fontFamily: 'open-sans-extra',
   },
   developmentModeText: {
     marginBottom: 20,

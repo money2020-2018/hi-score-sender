@@ -12,7 +12,7 @@ export default class LinksScreen extends React.Component {
   render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.label}>Allowance sent to Mayra!</Text>
+        <Text style={styles.label}>Reward sent to Mayra!</Text>
         <View style={styles.avatarSection}>
             <Image
               style={{
