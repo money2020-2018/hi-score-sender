@@ -73,7 +73,7 @@ export default class HomeScreen extends React.Component {
             />
             <TouchableOpacity
               style={styles.sendButton}
-              onPress={this._onPressLearnMore}
+              onPress={() => this._onPressLearnMore(this.state.baseAllowance)}
             >
               <Text style={styles.sendText}>Send Now</Text>
             </TouchableOpacity>
@@ -110,8 +110,20 @@ export default class HomeScreen extends React.Component {
     }
   }
 
-  _onPressLearnMore = () => {
+  _onPressLearnMore = (amt) => {
     console.log("Here!", this.state.baseAllowance);
+    fetch('https://582c3fce.ngrok.io', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: amt
+      }),
+      json: true
+    });
+    this.props.navigation.navigate('Links');
   };
 }
 
