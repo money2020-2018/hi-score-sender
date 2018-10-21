@@ -15,10 +15,13 @@ import { WebBrowser } from 'expo';
 import { MonoText } from '../components/StyledText';
 
 export default class HomeScreen extends React.Component {
+  static navigationOptions = {
+    header: null
+  }
   constructor(props) {
     super(props);
     this.state = {
-      baseAllowance: 5
+      baseAllowance: 20
     };
   }
 
@@ -32,30 +35,53 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const {baseAllowance} = this.state;
-    const {navigate} = this.props.navigation;
 
     return (
       <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <Text style={styles.getStartedText}>Set Allowance</Text>
-          <Text style={styles.text}>{String(baseAllowance)}</Text>
-          <Slider
-            style={styles.sliderContainer}
-            step={.05}
-            maximumValue={8}
-            minimumValue={3}
-            onValueChange={this.change.bind(this)}
-            value={baseAllowance}
-          />
+        <ScrollView style={styles.container}>
+          <View style={styles.notification}>
+            <Image
+              style={{width: 50, height: 50}}
+              source={require('../assets/images/notification.png')}
+            />
+          </View>
+          <Text style={styles.header}>Reward 'em</Text>
+          <View style={styles.allowanceSection}>
+            <Text style={styles.getStartedText}>Reward Now</Text>
+            <Text style={styles.label}>{"$" + String(baseAllowance)}</Text>
+            <Slider
+              style={styles.sliderContainer}
+              step={.25}
+              maximumValue={25}
+              minimumValue={3}
+              onValueChange={this.change.bind(this)}
+              value={parseInt(baseAllowance)}
+              minimumTrackTintColor="#1a1f71"
+              maximumTrackTintColor="#1a1f71"
+              thumbTintColor="#1a1f71"
+            />          
+          </View>
 
-          <Button
-            style={styles.sendButton}
-            onPress={this._onPressLearnMore}
-            title="Send"
-            color="#fdbb0a"
-            accessibilityLabel="Submit button to send allowance"
-          />
-
+          <View style={styles.avatarSection}>
+            <Image
+              style={{
+                width: 200,
+                height: 200,
+                justifyContent: 'center',
+              }}
+              source={require('../assets/images/A-24.png')}
+            />
+            <TouchableOpacity
+              style={styles.sendButton}
+              onPress={this._onPressLearnMore}
+            >
+              <Text style={styles.sendText}>Send Now</Text>
+            </TouchableOpacity>
+          </View>
+           
+          <View style={styles.section}>
+            
+          </View>
         </ScrollView>
       </View>
     );
@@ -85,16 +111,7 @@ export default class HomeScreen extends React.Component {
   }
 
   _onPressLearnMore = () => {
-  };
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
+    console.log("Here!", this.state.baseAllowance);
   };
 }
 
@@ -102,12 +119,65 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: 20
+  },
+  sendButton: {
+    padding: 20,
+    width: '90%',
+    borderRadius: 5,
+    backgroundColor: '#FFD700',
   },
   sliderContainer: {
     marginBottom: 20
   },
-  sendButton: {
-    width: 80
+  getStartedText: {
+    color: '#003ea9',
+    fontWeight: '900',
+    fontSize: 20,
+    lineHeight: 20,
+    textAlign: 'center',
+    paddingBottom: 15
+  },
+  sendText: {
+    color: '#000',
+    fontWeight: '900',
+    fontSize: 20,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  header: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 34,
+    lineHeight: 35,
+    textAlign: 'left',
+    marginBottom: 24,
+    marginLeft: 20
+  },
+  section: {
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+  },
+  avatarSection: {
+    alignItems: 'center'
+  },
+  imageSection: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  notification: {
+    alignItems: 'flex-end',
+    marginRight: 10
+  },
+  allowanceSection: {
+    padding: 10
+  },
+  label: {
+    fontSize: 45,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    lineHeight: 45,
+    color: '#003ea9'
   },
   developmentModeText: {
     marginBottom: 20,
@@ -124,75 +194,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
   },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
   getStartedContainer: {
     alignItems: 'center',
     marginHorizontal: 50,
   },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 25,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
   text: {
     fontSize: 50,
     textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
   },
 });
